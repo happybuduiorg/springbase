@@ -1,0 +1,70 @@
+package com.happybudui.springbase.service;
+
+import com.happybudui.springbase.entity.UserEntity;
+import com.happybudui.springbase.mapper.UserMapper;
+import com.happybudui.springbase.wrapper.ResponseResult;
+import com.happybudui.springbase.wrapper.ResultGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+//CopyRight © 2018-2018 Happybudui All Rights Reserved.
+//Written by Happybudui
+
+@Service
+public class AdminService {
+    private final UserMapper userMapper;
+
+    @Autowired
+    public AdminService(UserMapper Mapper){
+        userMapper = Mapper;
+    }
+
+    @Transactional
+    public ResponseResult<UserEntity> getUserInfoJsonById(String userId){
+        UserEntity userEntity = userMapper.getUserInfoById(userId);
+
+        if(userEntity!=null) {
+            return ResultGenerator.success(userEntity);
+        }else{
+            return ResultGenerator.error(300,"can't find any userinfo!");
+        }
+    }
+
+    @Transactional
+    public ResponseResult<Integer> insertUser(String userName,String userMail,String userpassword){
+        UserEntity userEntity=new UserEntity(userName,userMail,userpassword);
+
+        if(userMapper.insertUser(userEntity)==1){
+            return  ResultGenerator.success();
+        }else{
+            return ResultGenerator.error("insert failed!");
+        }
+    }
+
+    @Transactional
+    public ResponseResult<Integer> deleteUserById(String userid){
+        if(userMapper.deleteUserById(userid)==1){
+            return  ResultGenerator.success();
+        }else{
+            return  ResultGenerator.error("insert failed!");
+        }
+    }
+
+    @Transactional
+    public ResponseResult<Integer> updateUserById(String userId, String username){
+        if(userMapper.updateUserNameById(userId,username)==1)
+            return  ResultGenerator.success();
+        else
+            return  ResultGenerator.error("delete failed!");
+    }
+
+    @Transactional
+    public ResponseResult<Integer> frozenUserById(String userstatus){
+        if(userMapper.frozenUserById(userstatus)==1)
+            return  ResultGenerator.success();
+        else
+            return  ResultGenerator.error("frozen failed!");
+    }
+
+}
