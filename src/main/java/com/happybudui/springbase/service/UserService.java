@@ -60,7 +60,7 @@ public class UserService {
         }
 
         if(userEntity.getUserPassword().equals(userPassword)){
-            if(userEntity.getUserStatus()!=0){
+            if(userEntity.getUserStatus()==1){
                 return ResultGenerator.error("account has been frozen!");
             }
 
@@ -93,7 +93,7 @@ public class UserService {
         return ResultGenerator.error("Inner Error!");
     }
 
-    // 判断邮箱是否注册
+    //判断邮箱是否注册并发送找回邮件
     @Transactional
     public ResponseResult<Integer> isMailActive(String userMail){
         if(userMapper.getUserIsMailActiveByMail(userMail)){
@@ -102,7 +102,6 @@ public class UserService {
         }
         return ResultGenerator.error("Error!");
     }
-
 
     //用户找回密码
     @Transactional
@@ -116,6 +115,7 @@ public class UserService {
             return ResultGenerator.error("Error!");
         }
     }
+
     //用户修改密码
     @Transactional
     public ResponseResult<Integer> changePassWord(String userPassword,String newPassword,HttpSession session) {

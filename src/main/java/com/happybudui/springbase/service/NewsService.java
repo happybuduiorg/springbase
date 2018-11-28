@@ -76,7 +76,7 @@ public class NewsService {
         int maxNewsId=this.getNewsMaxId();
         int readCount=this.getUserReadCount(session);
 
-        return maxNewsId>readCount;
+        return (maxNewsId+1)>readCount;
     }
 
     //Internal call

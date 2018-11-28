@@ -13,8 +13,8 @@ import java.io.IOException;
 //CopyRight © 2018-2018 Happybudui All Rights Reserved.
 //Written by Happybudui
 
-@WebFilter(filterName = "sessionFilter",urlPatterns = {"/*"})
-public class SessionFilter implements Filter {
+@WebFilter(filterName = "userFilter",urlPatterns = {"/user/*"})
+public class UserFilter implements Filter {
                                 
     private String[] includeUrls = new String[]{"/user/login","/user/register"};
 

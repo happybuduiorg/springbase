@@ -56,10 +56,10 @@ public class UserController {
     ResponseResult<Integer> isMailActive(@RequestParam(name="usermail")String userMail){
         return userService.isMailActive(userMail);
     }
+
     @RequestMapping(value = "resetpassword", method = RequestMethod.POST)
     ResponseResult<Integer> resetpassword(@RequestParam(name="usermail")String userMail, @RequestParam(name="entercode")String enterCode, @RequestParam(name="newpassword")String newPassword){
         return userService.resetPassword(userMail, enterCode, newPassword);
     }
-
 
 }

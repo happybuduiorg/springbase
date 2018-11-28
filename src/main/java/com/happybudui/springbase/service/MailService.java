@@ -69,17 +69,32 @@ public class MailService {
 
         sendHtmlMail(userMail,"请验证您的邮箱",emailContent);
     }
+
+    //验证激活邮件是否有效
+    public boolean verMail(String maskId,String verCode){
+        String userId =redisService.get(maskId);
+        if(userId==null)
+            return false;
+        String realVerCode = redisService.get(userId);
+
+        if(realVerCode.equals(verCode)) {
+            redisService.setValidTime(maskId,1);
+            redisService.setValidTime(userId,1);
+            userMapper.updateUserMailActiveStatus(userId);
+            return true;
+        }
+        else
+            return false;
+    }
+
     // 向用户发送修改密码的验证码
     public void sendVerCodeMail(String userMail) {
-        String maskId = getRandomString(6);
         String verCode = getRandomString(6);
 
-        redisService.set(maskId, userMail);
         redisService.set(userMail, verCode);
         redisService.setValidTime(userMail, 3600*24);
 
         Context context = new Context();
-        context.setVariable("maskId",maskId);
         context.setVariable("VerificationCode", verCode);
         String emailContent = templateEngine.process("mailfindpasswordtemplate", context);
         logger.info(emailContent);
@@ -96,22 +111,6 @@ public class MailService {
         } else{
             return false;
         }
-    }
-    //验证是否邮件已激活
-    public boolean verMail(String maskId,String verCode){
-        String userId =redisService.get(maskId);
-        if(userId==null)
-            return false;
-        String realVerCode = redisService.get(userId);
-
-        if(realVerCode.equals(verCode)) {
-            redisService.setValidTime(maskId,1);
-            redisService.setValidTime(userId,1);
-            userMapper.updateUserMailActiveStatus(userId);
-            return true;
-        }
-        else
-            return false;
     }
 
     //发送邮件的接口

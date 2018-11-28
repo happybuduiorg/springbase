@@ -16,12 +16,12 @@ public class AdminService {
     private final UserMapper userMapper;
 
     @Autowired
-    public AdminService(UserMapper Mapper){
-        userMapper = Mapper;
+    public AdminService(UserMapper userMapper){
+        this.userMapper = userMapper;
     }
 
     @Transactional
-    public ResponseResult<UserEntity> getUserInfoJsonById(String userId){
+    public ResponseResult<UserEntity> getUserInfoById(String userId){
         UserEntity userEntity = userMapper.getUserInfoById(userId);
 
         if(userEntity!=null) {
@@ -52,7 +52,7 @@ public class AdminService {
     }
 
     @Transactional
-    public ResponseResult<Integer> updateUserById(String userId, String username){
+    public ResponseResult<Integer> updateUserNameById(String userId, String username){
         if(userMapper.updateUserNameById(userId,username)==1)
             return  ResultGenerator.success();
         else
@@ -60,8 +60,8 @@ public class AdminService {
     }
 
     @Transactional
-    public ResponseResult<Integer> frozenUserById(String userstatus){
-        if(userMapper.frozenUserById(userstatus)==1)
+    public ResponseResult<Integer> frozenUserById(String userId){
+        if(userMapper.frozenUserById(userId)==1)
             return  ResultGenerator.success();
         else
             return  ResultGenerator.error("frozen failed!");

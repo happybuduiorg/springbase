@@ -28,34 +28,28 @@ public class AdminController {
         this.adminService = adminService;
     }
 
-//    // 根据id获取用户数据的json
-//    @RequestMapping(value = "getUserId", method = RequestMethod.GET)
-//    ResponseResult<UserMapper> getUserInfoJsonById(@RequestParam(name = "userid") String userId){
-//        return adminService.getUserInfoJsonById(userId);
-//    }
-
-    // 插入用户数据
+    // 插入用户
     @RequestMapping(value = "insertuser",method = RequestMethod.POST)
     ResponseResult<Integer>insertUser(@RequestParam(name="usermail")String usermail,@RequestParam(name="username")String username,@RequestParam(name="userpassword")String userpassword) {
         return adminService.insertUser(usermail,username,userpassword);
     }
 
-    // 删除用户数据
+    // 删除用户
     @RequestMapping(value = "deleteuser", method = RequestMethod.GET)
-    ResponseResult<Integer> deleteUserById(@RequestParam(name = "username") String username){
-        return adminService.deleteUserById(username);
+    ResponseResult<Integer> deleteUserById(@RequestParam(name = "userid") String userId){
+        return adminService.deleteUserById(userId);
     }
 
-    // 更新用户数据
+    // 更新用户名
     @RequestMapping(value = "updateuser", method = RequestMethod.POST)
-    ResponseResult<Integer>updateUserById(@RequestParam(name="usermail")String usermail,@RequestParam(name = "username") String username){
-        return adminService.updateUserById(usermail,username);
+    ResponseResult<Integer>updateUserNameById(@RequestParam(name="userid")String userId,@RequestParam(name = "username") String username) {
+        return adminService.updateUserNameById(userId, username);
     }
 
-    //冻结用户
+    //冻结账户
     @RequestMapping(value = "frozenuseraccount",method = RequestMethod.POST)
-    ResponseResult<Integer> frozenUserById(@RequestParam(name = "userstatus") String userstatus){
-        return adminService.frozenUserById(userstatus);
+    ResponseResult<Integer> frozenUserById(@RequestParam(name = "userid") String userId){
+        return adminService.frozenUserById(userId);
     }
 
     //上传文件接口
