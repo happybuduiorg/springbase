@@ -103,7 +103,7 @@ public class UserService {
         return ResultGenerator.error("Error!");
     }
 
-    //用户找回密码
+    //用户找回密码验证en
     @Transactional
     public ResponseResult<Integer> resetPassword(String userMail, String enterCode, String newpassword){
         if(mailService.verCodeMail(userMail, enterCode)){
